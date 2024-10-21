@@ -4,8 +4,13 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\VentaResource\Pages;
 use App\Filament\Resources\VentaResource\RelationManagers;
+use App\Models\Producto;
 use App\Models\Venta;
+use App\Models\Venta_Productos;
+use Carbon\Carbon;
 use Filament\Forms;
+use Filament\Forms\Components\DatePicker;
+use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
@@ -41,13 +46,81 @@ class VentaResource extends Resource
             ->required()
             ->relationship(name: 'cliente', titleAttribute:'razon_social')
             ->label('Cliente'),
+        DatePicker::make('fecha')
+            ->default(Carbon::now())
+            ->required(),
         TextInput::make('total')
             ->numeric()
             ->label('Total')
             ->reactive()
             ->dehydrateStateUsing(fn ($state) => round($state, 2) ?? 0), 
 
+        Section::make('Productos')
+            ->description('Selecciona los productos de la venta')
+            ->collapsible()
+            ->schema([
+
+                Forms\Components\Repeater::make('ventaProductos')
+                    ->relationship()
+                    ->columnSpanFull()
+                    ->grid(2)
+                    ->schema([
+                        Select::make('id_producto')
+                            ->required()
+                            ->label('Producto')
+                            ->options(function (callable $get) {
+                                // Usar directamente 'id_tienda' desde el formulario
+                                $tiendaId = $get('../../id_tienda'); // Propagación forzada
+        
+                                Log::info('ID de Tienda dentro del Repeater:', ['id_tienda' => $tiendaId]);
+        
+                                // Si la tienda está seleccionada, cargar productos del inventario
+                                if ($tiendaId) {
+                                    return \App\Models\Inventario::where('id_tienda', $tiendaId)
+                                        ->where('stock', '>', 0)
+                                        ->with('producto')
+                                        ->get()
+                                        ->mapWithKeys(function ($inventario) {
+                                            return [$inventario->id_producto => $inventario->producto->nombre];
+                                        });
+                                }
+                                return [];
+                            })
+                            ->reactive()
+                            ->afterStateUpdated(function ($state, callable $set) {
+                                $producto = \App\Models\Producto::find($state);
+                                $set('precio_unitario', $producto ? $producto->precio : null);
+                            }),
+                            TextInput::make('cantidad')
+                                ->numeric()
+                                ->required()
+                                ->label('Cantidad')
+                                ->reactive()
+                                ->afterStateUpdated(function ($state, callable $set, callable $get) {
+                                    // Calcular el subtotal después de actualizar la cantidad
+                                    $set('subtotal', ($state ?? 0) * ($get('precio_unitario') ?? 0));
+                                }),
+        
+                            TextInput::make('precio_unitario')
+                                ->readOnly()
+                                ->numeric()
+                                ->required()
+                                ->label('Precio Unitario')
+                                ->reactive()
+                                ->afterStateUpdated(function ($state, callable $set, callable $get) {
+                                    // Calcular el subtotal después de actualizar el precio unitario
+                                    $set('subtotal', ($get('cantidad') ?? 0) * ($state ?? 0));
+                                }),
+        
+                            TextInput::make('subtotal')
+                                ->readOnly()
+                                ->numeric()
+                                ->label('Subtotal')
+                                ->reactive(),
+                    ])
+            ]),
         // Repeater para seleccionar productos
+        /*
         Forms\Components\Repeater::make('productos')
             ->label('Productos')
             ->relationship('ventaProductos')
@@ -111,7 +184,7 @@ class VentaResource extends Resource
                 $productos = $get('productos') ?? [];
                 $total = collect($productos)->sum('subtotal'); // Sumar los subtotales
                 $set('total', round($total, 2));
-            }),
+            }), */ 
 
         
     ]);
