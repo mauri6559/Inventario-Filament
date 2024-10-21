@@ -11,11 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('ventas', function (Blueprint $table) {
+        Schema::create('venta__productos', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('id_tienda')->constrained('tiendas','id')->onDelete('cascade');
-            $table->foreignId('id_cliente')->constrained('clientes','id')->onDelete('cascade');
-            $table->decimal('total', 10, 2);  // Precio total de la venta
+            $table->foreignId('id_venta')->constrained('ventas')->onDelete('cascade');
+            $table->foreignId('id_producto')->constrained('productos')->onDelete('cascade');
+            $table->integer('cantidad');
+            $table->decimal('precio_unitario', 10, 2);
             $table->timestamps();
         });
     }
@@ -25,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('ventas');
+        Schema::dropIfExists('venta__productos');
     }
 };

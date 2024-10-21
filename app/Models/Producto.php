@@ -26,4 +26,9 @@ class Producto extends Model
     {
         return $this->belongsTo(Marca::class, 'id_marca');
     }
+    
+    public function inventarios() 
+    {
+        return $this->belongsTo(Inventario::class, 'id_producto');
+    }
 }
