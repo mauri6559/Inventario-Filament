@@ -6,11 +6,13 @@ use App\Observers\InventarioObserver;
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Spatie\Activitylog\LogOptions;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 #[ObservedBy([InventarioObserver::class])]
 class Inventario extends Model
 {
-    use HasFactory;
+    use HasFactory, LogsActivity;
 
     protected $fillable = [
         'stock',
@@ -26,5 +28,11 @@ class Inventario extends Model
     public function producto() 
     {
         return $this->belongsTo(Producto::class, 'id_producto');
+    }
+
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()
+        ->logOnly(['name', 'text']);
     }
 }

@@ -9,9 +9,16 @@
         "bezhansalleh/filament-language-switch": "^3.1",
         "filament/filament": "^3.2",
         "flowframe/laravel-trend": "^0.3.0",
+        "geoip2/geoip2": "^3.0",
+        "laravel/fortify": "^1.24",
         "laravel/framework": "^11.9",
         "laravel/tinker": "^2.9",
-        "spatie/laravel-permission": "^6.9"
+        "predis/predis": "^2.2",
+        "rmsramos/activitylog": "^1.0",
+        "spatie/laravel-permission": "^6.9",
+        "stephenjude/filament-two-factor-authentication": "^0.0.5",
+        "tapp/filament-authentication-log": "3.1",
+        "torann/geoip": "^3.0"
     },
     "require-dev": {
         "fakerphp/faker": "^1.23",

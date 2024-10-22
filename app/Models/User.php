@@ -10,11 +10,15 @@ use Filament\Tables\Columns\Layout\Panel;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Rappasoft\LaravelAuthenticationLog\Traits\AuthenticationLoggable;
+use Spatie\Activitylog\LogOptions;
+use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\Permission\Traits\HasRoles;
+use Stephenjude\FilamentTwoFactorAuthentication\TwoFactorAuthenticatable;
 
-class User extends Authenticatable 
+class User extends Authenticatable implements FilamentUser
 {
-    use HasFactory, Notifiable, HasRoles;
+    use HasFactory, Notifiable, HasRoles, TwoFactorAuthenticatable, LogsActivity, AuthenticationLoggable;
 
     /**
      * The attributes that are mass assignable.
@@ -55,10 +59,16 @@ class User extends Authenticatable
         ];
     }
 
-    // public function canAccessPanel(FilamentPanel $panel): bool
-    // {
-    //     return $this->hasRole(['Admin', 'Writer']);
-    // }
+    public function canAccessPanel(FilamentPanel $panel): bool
+    {
+        return true;
+    }
+
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()
+        ->logOnly(['name', 'text']);
+    }
 
     
 }
