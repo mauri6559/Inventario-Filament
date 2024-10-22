@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources;
 
+use App\Filament\Exports\VentaExporter;
 use App\Filament\Resources\VentaResource\Pages;
 use App\Filament\Resources\VentaResource\RelationManagers;
 use App\Models\Producto;
@@ -16,6 +17,7 @@ use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Tables\Actions\ExportAction;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
@@ -197,13 +199,36 @@ class VentaResource extends Resource
     {
         return $table
             ->columns([
-                //
+                Tables\Columns\TextColumn::make('id')
+                ->label('ID')
+                ->sortable()
+                ->searchable(),
+            Tables\Columns\TextColumn::make('tienda.nombre')
+                ->label('Tienda')
+                ->sortable()
+                ->searchable(),
+            Tables\Columns\TextColumn::make('cliente.razon_social')
+                ->label('Cliente')
+                ->sortable()
+                ->searchable(),
+            Tables\Columns\TextColumn::make('fecha')
+                ->label('Fecha')
+                ->sortable()
+                ->date('d/m/Y'), // Cambia el formato de la fecha según tus necesidades
+            Tables\Columns\TextColumn::make('total')
+                ->label('Total')
+                ->sortable()
+                ->money('BOB', true) // Formato de moneda, cambia 'USD' según corresponda
+                ->searchable(),
             ])
             ->filters([
                 //
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
+            ])
+            ->headerActions([
+                ExportAction::make()->exporter(VentaExporter::class)
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

@@ -39,6 +39,10 @@ class ProductoResource extends Resource
                     TextInput::make('precio')
                         ->numeric()
                         ->label('Precio'),
+                    TextInput::make('precio_unit_compra')
+                        ->numeric()
+                        ->label('Precio unitario de compra'),
+
                     Select::make('id_marca')
                         ->required()
                         ->relationship(name: 'marca', titleAttribute:'Nombre')
@@ -68,6 +72,9 @@ class ProductoResource extends Resource
                 Tables\Columns\TextColumn::make('precio')
                     ->sortable()
                     ->label('Precio'),
+                Tables\Columns\TextColumn::make('precio_unit_compra')
+                    ->sortable()
+                    ->label('Precio de Compra'),
                 Tables\Columns\TextColumn::make('categoria.Nombre')
                     ->searchable()
                     ->label('Categoría'),

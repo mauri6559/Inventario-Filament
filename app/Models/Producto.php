@@ -13,6 +13,7 @@ class Producto extends Model
         'nombre',
         'descripcion',
         'precio',
+        'precio_unit_compra',
         'id_Categoria',
         'id_marca',
     ];
