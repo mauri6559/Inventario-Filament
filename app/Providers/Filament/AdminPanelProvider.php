@@ -2,8 +2,13 @@
 
 namespace App\Providers\Filament;
 
+use App\Filament\Widgets\PedidoProveedorChart;
+use App\Filament\Widgets\PedidosChart;
 use App\Filament\Widgets\TestChartWidget;
 use App\Filament\Widgets\TestWidget;
+use App\Filament\Widgets\VentasChart;
+use App\Filament\Widgets\VentasClienteChart;
+use App\Filament\Widgets\VentasTiendaChart;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
@@ -44,7 +49,12 @@ class AdminPanelProvider extends PanelProvider
             ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\\Filament\\Widgets')
             ->widgets([
                 TestWidget::class,
+                PedidosChart::class,
+                VentasChart::class,
                 TestChartWidget::class,
+                PedidoProveedorChart::class,
+                VentasTiendaChart::class,
+                VentasClienteChart::class
             ])
             ->middleware([
                 EncryptCookies::class,

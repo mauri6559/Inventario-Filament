@@ -3,7 +3,7 @@
 return [
     'resources' => [
         'label'                  => 'Activity Log',
-        'plural_label'           => 'Activity Logs',
+        'plural_label'           => 'Logs de Actividad',
         'navigation_item'        => true,
         'navigation_group'       => null,
         'navigation_icon'        => 'heroicon-o-shield-check',

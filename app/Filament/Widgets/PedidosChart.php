@@ -2,19 +2,19 @@
 
 namespace App\Filament\Widgets;
 
-use App\Models\Cliente;
+use App\Models\Pedido;
 use Filament\Widgets\ChartWidget;
 use Flowframe\Trend\Trend;
 use Flowframe\Trend\TrendValue;
 
-class TestChartWidget extends ChartWidget
+class PedidosChart extends ChartWidget
 {
     protected static ?int $sort = 0;
-    protected static ?string $heading = 'Clientes agregados';
+    protected static ?string $heading = 'Pedidos';
 
     protected function getData(): array
     {
-        $data = Trend::model(Cliente::class)
+        $data = Trend::model(Pedido::class)
         ->between(
             start: now()->subMonths(6),
             end: now(),
@@ -22,17 +22,17 @@ class TestChartWidget extends ChartWidget
         ->perMonth()
         ->count();
         $colors = [
-            '#FF6384', // Color 1
-            '#4BC0C0', // Color 4
-            '#9966FF', // Color 5
             '#FF9F40', // Color 6
+            '#36A2EB', // Color 2
+            '#4BC0C0', // Color 4
+            '#FFCE56', // Color 3
+            '#FF6384', // Color 1
+            '#9966FF', // Color 5
         ];
-        //dd($data);
-
         return [
             'datasets' => [
                 [
-                    'label' => 'Clientes agregados',
+                    'label' => 'Pedidos Realizados',
                     'data' => $data->map(fn (TrendValue $value) => $value->aggregate),
                     'borderColor' => $colors,
                 ],
