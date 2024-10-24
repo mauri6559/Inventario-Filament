@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources;
 
+use App\Filament\Exports\PedidoExporter;
 use App\Filament\Resources\PedidoResource\Pages;
 use App\Filament\Resources\PedidoResource\RelationManagers;
 use App\Models\Pedido;
@@ -14,6 +15,7 @@ use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Tables\Actions\ExportAction;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
@@ -130,6 +132,9 @@ class PedidoResource extends Resource
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
+            ])
+            ->headerActions([
+                ExportAction::make()->exporter(PedidoExporter::class)
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

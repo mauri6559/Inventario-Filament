@@ -1,25 +1,25 @@
 <div>
     <x-filament::section :aside="$aside">
         <x-slot name="heading">
-            {{__('Two Factor Authentication')}}
+            {{__('Autenticación de dos factores')}}
         </x-slot>
 
         <x-slot name="description">
-            {{__('Add additional security to your account using two factor authentication.')}}
+            {{__('Agregue seguridad adicional a su cuenta utilizando la autenticación de dos factores.')}}
         </x-slot>
 
         <div class="">
             @if($this->isConfirmingSetup)
                 <h2 class="text-xl font-medium mb-4">
-                    {{__('Finish enabling two factor authentication.')}}
+                    {{__('Terminar de habilitar la autenticación de dos factores.')}}
                 </h2>
 
                 <p class="text-sm mb-4">
-                    {{__("When two factor authentication is enabled, you will be prompted for a secure, random token during authentication. You may retrieve this token from your phone's Google Authenticator application.")}}
+                    {{__("Cuando la autenticación de dos factores está habilitada, se le solicitará un token aleatorio seguro durante la autenticación. Puede recuperar este token desde la aplicación Google Authenticator de su teléfono.")}}
                 </p>
 
                 <p class="text-sm font-semibold mb-4">
-                    {{__("To finish enabling two factor authentication, scan the following QR code using your phone's authenticator application or enter the setup key and provide the generated OTP code.")}}
+                    {{__("Para terminar de habilitar la autenticación de dos factores, escanee el siguiente código QR usando la aplicación de autenticación de su teléfono o ingrese la clave de configuración y proporcione el código OTP generado.")}}
                 </p>
 
                 <div class="mb-4">
@@ -37,19 +37,19 @@
                 </form>
             @elseif($this->enableTwoFactorAuthentication->isVisible())
                 <h2 class="text-xl font-medium mb-4">
-                    {{__('You have not enabled two factor authentication.')}}
+                    {{__('No ha habilitado la autenticación de dos factores.')}}
                 </h2>
 
                 <p class="text-sm mb-4">
-                    {{__("When two factor authentication is enabled, you will be prompted for a secure, random token during authentication. You may retrieve this token from your phone's Google Authenticator application.")}}
+                    {{__("Cuando la autenticación de dos factores está habilitada, se le solicitará un token aleatorio seguro durante la autenticación. Puede recuperar este token desde la aplicación Google Authenticator de su teléfono.")}}
                 </p>
 
                 {{$this->enableTwoFactorAuthentication}}
             @elseif($this->disableTwoFactorAuthentication->isVisible())
-                <h2 class="text-xl font-medium mb-4">{{__('You have enabled two factor authentication.')}}</h2>
+                <h2 class="text-xl font-medium mb-4">{{__('Ha habilitado la autenticación de dos factores.')}}</h2>
 
                 <p class="text-sm mb-4">
-                    {{__('Store these recovery codes in a secure password manager. They can be used to recover access to your account if your two factor authentication device is lost.')}}
+                    {{__('Guarde estos códigos de recuperación en un administrador de contraseñas seguro. Pueden utilizarse para recuperar el acceso a su cuenta si pierde su dispositivo de autenticación de dos factores.')}}
                 </p>
 
                 <div class="mb-4 p-4 bg-gray-100 rounded-md">

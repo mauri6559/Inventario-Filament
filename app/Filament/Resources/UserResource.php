@@ -2,10 +2,12 @@
 
 namespace App\Filament\Resources;
 
+use App\Filament\Exports\UserExporter;
 use App\Filament\Resources\UserResource\Pages;
 use App\Filament\Resources\UserResource\Pages\CreateUser;
 use App\Filament\Resources\UserResource\RelationManagers;
 use App\Models\User;
+use Filament\Tables\Actions\ExportAction;
 use Filament\Forms;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Select;
@@ -14,6 +16,7 @@ use Filament\Pages\Page;
 use Filament\Resources\Pages\CreateRecord;
 use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Tables\Actions\ExportAction as ActionsExportAction;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
@@ -123,6 +126,9 @@ class UserResource extends Resource
                     ->label('Editar'),
                 Tables\Actions\DeleteAction::make()
                     ->label('Eliminar'),
+            ])
+            ->headerActions([
+                ExportAction::make()->exporter(UserExporter::class)
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
