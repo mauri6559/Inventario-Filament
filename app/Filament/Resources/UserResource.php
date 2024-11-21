@@ -24,6 +24,7 @@ use Illuminate\Support\Facades\Hash;
 
 class UserResource extends Resource
 {
+    
     protected static ?string $model = User::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-users';
@@ -33,6 +34,10 @@ class UserResource extends Resource
     protected static ?string $navigationGroup = 'Administracion';
 
     protected static ?string $navigationLabel = 'Usuarios';
+
+    protected static ?string $modelLabel = 'Usuario';
+    
+    protected static ?string $pluralModelLabel = 'Usuarios';
 
     public static function form(Form $form): Form
     {
