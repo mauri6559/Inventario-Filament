@@ -10,6 +10,7 @@ use Filament\Actions;
 use Filament\Resources\Pages\CreateRecord;
 use Illuminate\Http\Client\Request;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Validation\ValidationException;
 
 class CreateVenta extends CreateRecord
 {
@@ -27,7 +28,25 @@ class CreateVenta extends CreateRecord
 
     protected function mutateFormDataBeforeCreate(array $data): array
     {
-        // Aquí puedes manipular los datos antes de crear el registro
+        /*Log::info('Productos de la venta:', $data['ventaProductos']);
+        Log::info('PRUEBASSSSSSSSSSSSSSSSSSSSSSSSS al conectar con la API: ');
+
+        // Validar el stock antes de crear la venta
+        $productosVenta = collect($data['ventaProductos'] ?? []);
+
+        foreach ($productosVenta as $productoVenta) {
+            $inventario = Inventario::where('id_tienda', $data['id_tienda'])
+                                    ->where('id_producto', $productoVenta['id_producto'])
+                                    ->first();
+
+            if (!$inventario || $inventario->stock < $productoVenta['cantidad']) {
+                Log::info('sadfsdsdfsdfdsafsdf456sad4fa6s5d4f56asd4fError al conectar con la API: ');
+                throw ValidationException::withMessages([
+                    'ventaProductos' => "El producto con ID {$productoVenta['id_producto']} no tiene suficiente stock disponible.",
+                ]);
+            }
+        }*/
+
         return $data;
     }
 

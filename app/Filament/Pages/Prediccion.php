@@ -103,7 +103,8 @@ class Prediccion extends Page implements HasForms
 
         try {
             // Realiza la solicitud POST a la API
-            $response = Http::post('http://192.168.100.102:5000/predict', [
+            // http://192.168.100.102:5000/predict
+            $response = Http::post('http://10.0.11.83:5000/predict', [
                 'producto' => $formData['producto'],       // Campo "producto" del formulario
                 'fecha_inicio' => $formData['fecha_inicio'], // Campo "fecha_inicio" del formulario
                 'dias_futuro' => $formData['dias_futuro'],              // Campo "dias" del formulario
